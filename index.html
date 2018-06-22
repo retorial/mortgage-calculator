@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta property="viewport" name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>Mortgage Calculator Prototype</title>
+
+	<!-- css -->
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,600,700">
+	<link rel="stylesheet" href="style.css">
+
+	<!-- js cdn -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.2.6/vue.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue-resource/1.5.1/vue-resource.min.js"></script>
+	<script src="https://unpkg.com/vue-chartjs@2.5.7-rc3/dist/vue-chartjs.full.min.js"></script>
+
+</head>
+<body>
+
+<!-- let's go -->
+<div id="calculator">
+
+	<!-- inputs -->
+	<div id="inputs" :class="{ visible: visible }" v-cloak>
+		<div id="price" class="input-group">
+			<label for="price">Home price</label>
+			<input type="text" v-model="price" @keyup="checkPrice" @blur="onBlurPrice" />
+		</div>
+		<div id="upfront" class="input-group">
+			<label for="upfront">Down payment ({{ upfront }}%)</label>
+			<input type="range" min="0" max="100" step="10" v-model="upfront" />
+		</div>
+		<div id="rate" class="input-group">
+			<label for="rate">Interest rate</label>
+			<div>
+				<input type="text" v-model.lazy="rate" @keyup.enter="checkRate" @blur="checkRate" />
+			</div>
+		</div>
+		<div id="term" class="input-group">
+			<label for="term">Loan term</label>
+			<div>
+				<select v-model="term">
+					<option v-for="term in terms" :value="term.value">{{ term.text }}</option>
+				</select>
+			</div>
+		</div>
+		<div id="save" class="input-group">
+			<button @click="saveSettings">{{ button }}</button>
+		</div>
+	</div><!-- #inputs -->
+
+	<!-- results -->
+	<div id="results" :class="{ visible: visible }" v-cloak>
+		<ul id="details">
+			<li>
+				<h5>Monthly payment*</h5>
+				<div v-html="toCurrency(payment)"></div>
+			</li>
+			<li>
+				<h5>Total payments</h5>
+				<div v-if="priceInt">{{ months }} monthly payments</div>
+				<div v-else>&ndash;&ndash;</div>
+			</li>
+			<li>
+				<h5>Down payment ({{ upfront }}%)</h5>
+				<div v-html="toCurrency(down, 0)"></div>
+			</li>
+			<li>
+				<h5>Principal</h5>
+				<div v-html="toCurrency(loan, 0)"></div>
+			</li>
+			<li>
+				<h5>Total interest paid</h5>
+				<div v-html="toCurrency(interest, 0)"></div>
+			</li>
+			<li>
+				<h5>Total mortgage cost*</h5>
+				<div v-html="toCurrency(total, 0)"></div>
+			</li>
+			<li>
+				<div>*Estimated, not including taxes and insurance.</div>
+			</li>
+		</ul>
+		<div id="chart">
+			<div><pie-chart :data="chartData" :animate="animate"></pie-chart></div>
+		</div>
+	</div><!-- #results -->
+
+</div>
+<script src="app.js"></script>
+<!-- party's over :( -->
+
+</body>
+</html>
