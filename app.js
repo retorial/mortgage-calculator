@@ -158,7 +158,11 @@ new Vue({
 		saveSettings() {
 
 			// define resource url
-			var url = 'http://p0zzz.mocklab.io/session/2';
+			// (note: this test api url no longer works and should be removed)
+			// var url = 'http://p0zzz.mocklab.io/session/2';
+			
+			// test success
+			var url = 'https://httpstat.us/200';
 
 			// test failure
 			// var url = 'https://httpstat.us/404';
@@ -268,7 +272,8 @@ new Vue({
 	created(){
 
 		// define resource url
-		var url = 'http://p0zzz.mocklab.io/calc/defaults/1';
+		// (note: this test api url no longer works and should be removed)
+		// var url = 'http://p0zzz.mocklab.io/calc/defaults/1';
 
 		// test timeout
 		// var url = 'https://httpstat.us/200?sleep=10000';
@@ -277,7 +282,7 @@ new Vue({
 		// var url = 'https://httpstat.us/404';
 
 		// test success, but without expected data
-		// var url = 'https://httpstat.us/200';
+		var url = 'https://httpstat.us/200';
 
 		// config a quick timeout (2 secs)
 		var config = {
